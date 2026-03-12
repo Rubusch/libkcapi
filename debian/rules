@@ -1,0 +1,48 @@
+#!/usr/bin/make -f
+#
+## I build the lib for my RPi devel setup as follows
+## Note, this can equally be done in Makefile:
+## Make sure to have the cross toolchain installed and environment configured
+#
+# $ autoreconf -i
+#
+# $ ./configure \
+#     --host=${CROSS_COMPILE%-} \
+#     CC=${CROSS_COMPILE}gcc \
+#     AR=${CROSS_COMPILE}ar \
+#     RANLIB=${CROSS_COMPILE}ranlib \
+#     STRIP=${CROSS_COMPILE}strip \
+#     --enable-kcapi-test \
+#     --enable-kcapi-speed \
+#     --enable-kcapi-hasher \
+#     --enable-kcapi-rngapp \
+#     --enable-kcapi-encapp \
+#     --enable-kcapi-dgstapp
+# 
+# $ make -j $(nproc)
+# 
+# $ make -j $(nproc) html
+# 
+# $ make install DESTDIR=$(pwd)/libkcapi
+#
+#
+## The debian package scripts are forked from the official debian libkcapi
+## So, dependency check, etc. should work directly, wrapt the (minimalized) .deb
+#
+# $ dpkg-buildpackage -a arm64 -b -nc -us -uc
+
+%:
+	dh $@ --exclude=.hmac --exclude=.la --missing-explanation
+
+override_dh_shlibdeps:
+	dh_shlibdeps -l/usr/aarch64-linux-gnu/lib
+
+override_dh_auto_configure:
+	@echo "Skip configure: using pre-compiled binaries"
+
+override_dh_auto_build:
+	@echo "Skip build: using pre-compiled binaries"
+
+override_dh_auto_install:
+	mkdir -p debian/tmp/usr
+	cp -a $(CURDIR)/libkcapi/usr/local/* debian/tmp/usr/

@@ -1,0 +1,4 @@
+usr/include/*
+usr/lib/libkcapi.a
+usr/lib/libkcapi.so
+usr/lib/pkgconfig/*

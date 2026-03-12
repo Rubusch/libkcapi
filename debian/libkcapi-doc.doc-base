@@ -1,0 +1,10 @@
+Document: libkcapi-doc
+Title: Linux Kernel Crypto API User Space Interface Library
+Author: Stephan Mueller
+Abstract: The Linux kernel exports a network interface of type AF_ALG to allow user space to utilize the kernel crypto API.
+Section: Programming/C
+
+Format: HTML
+Index: /usr/share/doc/libkcapi/html/index.html
+Files: /usr/share/doc/libkcapi/html/*
+
